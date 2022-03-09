@@ -1,6 +1,8 @@
 export abstract class ViewBase {
   protected parentElement: HTMLElement;
 
+  protected data: any;
+
   constructor(parentSelector: string) {
     const element = document.querySelector(parentSelector) as HTMLDivElement;
     if (!element) {

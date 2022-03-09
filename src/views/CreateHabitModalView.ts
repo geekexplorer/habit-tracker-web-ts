@@ -35,7 +35,7 @@ export class CreateHabitModalView extends ModalViewBase {
   addCreateHabitHandler(handler: (habitData: HabitData) => void) {
     this.parentElement.addEventListener("click", (e) => {
       const target = e!.target as HTMLElement;
-      if (target.classList.contains("js-confirm-create")) return;
+      if (!target.classList.contains("js-confirm-create")) return;
 
       const title = this.habitFormControl.getHabitTitle();
       if (!title) {

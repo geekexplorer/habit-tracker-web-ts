@@ -1,6 +1,6 @@
 import { ViewBase } from "./ViewBase.js";
 
-export class ModalViewBase extends ViewBase {
+export abstract class ModalViewBase extends ViewBase {
   protected data: any;
 
   constructor(parentSelector: string) {
@@ -13,9 +13,7 @@ export class ModalViewBase extends ViewBase {
     super.render();
   }
 
-  public generateMarkup(): string {
-    return "";
-  }
+  public abstract generateMarkup(): string;
 
   // Event Handlers
 

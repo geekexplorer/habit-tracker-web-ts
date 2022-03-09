@@ -128,4 +128,18 @@ export class HabitListView extends ViewBase {
       e.stopPropagation();
     });
   }
+
+  public addHandlerEditHabit(handler: (habitId: string) => void) {
+    this.parentElement.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.classList.contains("js-edit-habit")) return;
+
+      const habitId = (target.closest(".js-habit-list__habit") as HTMLElement).dataset.habitId;
+      if (!habitId) return;
+
+      e.stopPropagation();
+
+      handler(habitId);
+    });
+  }
 }

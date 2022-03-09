@@ -1,6 +1,6 @@
 import { HabitModel, HabitData, Day } from "../models/HabitModel.js";
-import { ModalViewBase } from "./ModalViewBase";
-import { HabitFormControl } from "./controls/HabitFormControl";
+import { ModalViewBase } from "./ModalViewBase.js";
+import { HabitFormControl } from "./controls/HabitFormControl.js";
 
 export class EditHabitModalView extends ModalViewBase {
   private habitFormControl: HabitFormControl;
@@ -37,10 +37,10 @@ export class EditHabitModalView extends ModalViewBase {
 
   // Event Handlers
 
-  addEditHabitHandler(handler: (habitData: HabitData) => void) {
+  addEditHabitHandler(handler: (data: { habitModel: HabitModel; updatedTitle: string }) => void) {
     this.parentElement.addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.classList.contains("js-confirm-edit")) return;
+      if (!target.classList.contains("js-confirm-edit")) return;
 
       const title = this.habitFormControl.getHabitTitle();
       if (!title) {
@@ -50,8 +50,7 @@ export class EditHabitModalView extends ModalViewBase {
 
       e.stopPropagation();
 
-      this.data.title = title;
-      handler(this.data);
+      handler({ habitModel: this.data, updatedTitle: title });
     });
   }
 }
