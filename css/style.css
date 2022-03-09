@@ -1,0 +1,350 @@
+/* --- Variables Section --- */
+
+:root {
+  /* Colors */
+  --permanent-geranium-lake: #e63232ff;
+  --orange-red: #f3722cff;
+  --yellow-orange-color-wheel: #f8961eff;
+  --sunglow: #ffd043ff;
+  --mantis: #7fc96bff;
+  --jungle-green: #43aa8bff;
+  --celadon-blue: #277da1ff;
+  --dark-cornflower-blue: #3b498eff;
+  --cyber-grape: #66418aff;
+
+  --font-color: #322329;
+  --background-color: white;
+  --title-color: #f8961eff;
+  --habit-title-color: #277da1ff;
+  --border-color: #277da1ff;
+  --button-color: #7fc96bff;
+  --modal-title-color: #ffd043ff;
+  --modal-button-color: #ffd043ff;
+  --day-complete-color: #ffd043ff;
+  --day-incomplete-color: lightslategray;
+  --error-color: rgba(230, 50, 50, 0.5);
+  --error-border-color: #e63232ff;
+
+  --text-error-color: white;
+  --input-border-color: slategrey;
+  --input-slider-color: slategrey;
+  --input-slider-thumb-color: rgba(127, 201, 107, 0.7);
+  --input-slider-thumb-border-color: rgba(127, 201, 107, 1);
+  --box-shadow-color: hsla(0, 0%, 0%, 0.3);
+  --modal-bg-color: rgba(0, 0, 0, 0.8);
+  --link-color: #66418aff;
+  --day-date-color: slategrey;
+  --are-you-sure-color: rgba(230, 50, 50, 0.5);
+}
+
+/* --- Fonts Section --- */
+
+@font-face {
+  font-family: "Shadows Into Light Two";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("./fonts/shadows-into-light-two-v11-latin-regular.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */ url("./fonts/shadows-into-light-two-v11-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* --- Borders Section --- */
+
+.border-1 {
+  border: 5px solid var(--border-color);
+  border-radius: 230px 15px 225px 15px/15px 225px 15px 10px;
+  padding: 0.4rem;
+}
+
+.title-border-1 {
+  border: 4px solid var(--title-color);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 10px;
+  padding: 0 0.4rem 0 0.4rem;
+}
+
+.button-border-1 {
+  border: 4px solid var(--button-color);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 10px;
+  padding: 0 0.4rem 0 0.4rem;
+}
+
+.box-shadow {
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
+}
+
+/* --- Defaults Section --- */
+
+html {
+  font-size: 28px;
+}
+
+body {
+  font-family: "Shadows Into Light Two";
+  background-color: white;
+  color: var(--font-color);
+  background-image: url("../img/dot-grid-light.png");
+  border-color: var (--border-color);
+}
+
+a:any-link {
+  text-decoration: none;
+  color: var(--link-color);
+}
+
+.action {
+  cursor: pointer;
+}
+
+.button {
+  background-color: var(--button-color);
+}
+
+/* --- App Section ---  */
+.app {
+}
+
+.app-header {
+  height: 2rem;
+}
+
+.app-footer {
+}
+
+.app-content {
+  width: 60%;
+  min-width: 750px;
+  margin: 0 auto;
+}
+
+/* --- Views Section --- */
+
+/* HabitListView */
+
+.habit-list-view {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 0.75rem;
+  align-items: center;
+}
+
+.habit-list-view__title {
+  font-size: 1.75rem;
+  font-weight: bolder;
+  text-align: center;
+  background-color: var(--title-color);
+  align-self: center;
+  color: var(--title-text-color);
+}
+
+.habit-list {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 0.6rem;
+  width: 100%;
+}
+
+.habit-list__habit {
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: 1rem;
+}
+
+.habit-details {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 8rem;
+  row-gap: 0.2rem;
+  flex-basis: 1;
+}
+
+.habit-details__title {
+  font-weight: bold;
+}
+
+.habit-details__start-date {
+  font-size: 0.7rem;
+}
+
+.habit-details__actions {
+  display: flex;
+  flex-flow: row nowrap;
+  opacity: 0.6;
+  font-size: 0.6rem;
+  justify-content: flex-start;
+  column-gap: 0.3rem;
+}
+
+.habit-days {
+  flex: 1 1 14%;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 1.8rem;
+  column-gap: 0.5rem;
+  border-left: 3px solid var(--box-shadow-color);
+  padding-left: 0.7rem;
+}
+
+.habit-day {
+  color: var(--box-shadow-color);
+}
+
+.day-date {
+  font-size: 0.4rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--day-date-color);
+  font-weight: 600;
+}
+
+.create-new-habit {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* --- Modals Section --- */
+
+/* Habit Modal */
+.modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background-color: var(--modal-bg-color);
+  margin: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  margin: 0 auto;
+  width: 40%;
+  min-width: 400px;
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 0.8rem;
+  padding: 1rem 1.5rem;
+  align-items: center;
+}
+
+.habit-modal__header {
+}
+
+.habit-modal__title {
+  border-color: var(--modal-title-color);
+  background-color: var(--modal-title-color);
+  width: inherit;
+  min-width: 425px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+}
+
+.habit-form {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.habit-form__error {
+  background-color: var(--error-color);
+  border-color: var(--error-border-color);
+  color: var(--text-error-color);
+  padding: 0.1rem 0.2rem;
+  text-align: center;
+  border: 3px solid var(--error-color);
+  font-weight: bold;
+  font-size: 0.65rem;
+}
+
+.habit-form__label {
+  font-weight: bold;
+}
+
+.habit-form__input {
+}
+
+.habit-form__input input {
+  padding: 0rem;
+  border-width: 3px;
+  border-color: var(--input-border-color);
+}
+
+.habit-form__duration-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.habit-form__duration-slider {
+}
+
+input[type="text"] {
+  border-color: var(--input-border-color);
+  padding: 0.15rem;
+}
+
+input[type="text"]:focus {
+  outline: none;
+}
+
+input[type="range"] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1rem;
+  cursor: pointer;
+  background: white;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 10px;
+  border: 3px solid var(--input-border-color);
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 2px solid var(--input-slider-thumb-border-color);
+  height: 1.3rem;
+  width: 1rem;
+
+  background: var(--input-slider-thumb-color);
+  cursor: pointer;
+  margin-top: -7px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 10px;
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
+}
+
+.habit-modal__actions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  font-weight: bold;
+  column-gap: 1.5rem;
+}
+
+/* --- States Section --- */
+
+.hidden {
+  display: none;
+}
+
+.day-complete {
+  opacity: 1;
+  color: var(--day-complete-color);
+}
+
+.are-you-sure {
+  font-weight: normal;
+  background-color: var(--are-you-sure-color);
+  border-color: var(--are-you-sure-color);
+  width: 100%;
+  padding: 0.5rem;
+}

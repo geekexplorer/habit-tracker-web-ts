@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+  "prettier.printWidth": 120
+}

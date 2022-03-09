@@ -1,0 +1,15 @@
+{
+  "name": "habitweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lenny Self",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.10.8",
+    "normalize-css": "^2.3.1"
+  }
+}
