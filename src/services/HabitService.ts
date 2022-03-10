@@ -38,18 +38,23 @@ export const HabitService = {
     }
   },
 
-  updateHabit: async function (id: string, updatedHabitData: HabitModel): Promise<HabitServiceResponse<string> | void> {
+  updateHabit: async function (
+    id: string,
+    updatedHabitData: HabitModel
+  ): Promise<HabitServiceResponse<string> | HabitServiceResponse<null>> {
     try {
       await REST.Put(`${API_URL}/${id}`, updatedHabitData);
+      return new HabitServiceResponse<null>(true, null);
     } catch (err) {
       console.error(err);
       return new HabitServiceResponse<string>(false, `Unable to update habit. (id=${id}`);
     }
   },
 
-  deleteHabit: async function (id: string): Promise<HabitServiceResponse<string> | void> {
+  deleteHabit: async function (id: string): Promise<HabitServiceResponse<string> | HabitServiceResponse<null>> {
     try {
       await REST.Delete(`${API_URL}/${id}`);
+      return new HabitServiceResponse(true, null);
     } catch (err) {
       console.error(err);
       return new HabitServiceResponse<string>(false, `Unable to delete habit. (id=${id})`);

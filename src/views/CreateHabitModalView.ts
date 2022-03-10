@@ -3,9 +3,10 @@ import { HabitFormControl, HabitFormType } from "./controls/HabitFormControl.js"
 import { ModalViewBase } from "./ModalViewBase.js";
 
 export class CreateHabitModalView extends ModalViewBase {
+  private title: string = "Create Habit";
   private habitFormControl: HabitFormControl;
 
-  constructor(parentSelector: string, private title: string) {
+  constructor(parentSelector: string) {
     super(parentSelector);
     this.habitFormControl = new HabitFormControl(parentSelector);
   }
@@ -27,7 +28,8 @@ export class CreateHabitModalView extends ModalViewBase {
     <div class="habit-modal__actions">
       <div class="action border-1 drop-shadow js-confirm-create">Create</div>
       <div class="action border-1 drop-shadow js-close-modal">Nope!</div>
-    </div>`;
+    </div>
+    <div class="modal-thinking js-thinking hidden">Thinking...</div>`;
   }
 
   // Event Handlers

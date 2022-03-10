@@ -6,6 +6,7 @@ import { ModalViewBase } from "./views/ModalViewBase.js";
 import { ErrorModalView } from "./views/ErrorModalView.js";
 import { CreateHabitModalView } from "./views/CreateHabitModalView.js";
 import { EditHabitModalView } from "./views/EditHabitModalView.js";
+import { DeleteHabitModalView } from "./views/DeleteHabitModalView.js";
 
 class App {
   private static instance: App;
@@ -13,19 +14,19 @@ class App {
   // ----------
   // State
   // ----------
-  private habitList?: HabitModel[];
-  private currentHabit?: HabitModel;
+  private habitListModel?: HabitModel[];
 
   // ----------
   // Views
   // ----------`
   private habitListView: HabitListView = new HabitListView(".js-habit-list-view", "My Habits");
   private errorModalView: ErrorModalView = new ErrorModalView(".modal");
-  private createHabitModalView: CreateHabitModalView = new CreateHabitModalView(".modal", "Create New Habit");
-  private editHabitModalView: EditHabitModalView = new EditHabitModalView(".modal", "Edit Habit");
+  private createHabitModalView: CreateHabitModalView = new CreateHabitModalView(".modal");
+  private editHabitModalView: EditHabitModalView = new EditHabitModalView(".modal");
+  private deleteHabitModalView: DeleteHabitModalView = new DeleteHabitModalView(".modal");
 
   private pageViews: ViewBase[] = [this.habitListView];
-  private modalViews: ModalViewBase[] = [this.createHabitModalView, this.editHabitModalView];
+  private modalViews: ModalViewBase[] = [this.createHabitModalView, this.editHabitModalView, this.deleteHabitModalView];
 
   private constructor() {}
 
@@ -43,7 +44,7 @@ class App {
   public async initialize() {
     await this.initState();
 
-    if (!this.habitList) {
+    if (!this.habitListModel) {
       this.renderAppError("Unable to download habit list. Please try again later.");
       return;
     }
@@ -54,7 +55,7 @@ class App {
     const habitsResult = await HabitService.getAllHabits();
     if (!habitsResult.success) return;
 
-    this.habitList = habitsResult.data as HabitModel[];
+    this.habitListModel = habitsResult.data as HabitModel[];
   }
 
   private initUI() {
@@ -73,6 +74,7 @@ class App {
     // Habit
     this.habitListView.addHandlerToggleDayCompelete(this.hlv_handleHabitDayClick.bind(this));
     this.habitListView.addHandlerEditHabit(this.hlv_handleHabitEdit.bind(this));
+    this.habitListView.addHandlerDeleteHabit(this.hlv_handleHabitDelete.bind(this));
   }
 
   private initModalHandlers() {
@@ -80,7 +82,10 @@ class App {
     this.createHabitModalView.addCreateHabitHandler(this.createhm_handleCreateNewHabit.bind(this));
 
     // EditHabitModalView
-    this.editHabitModalView.addEditHabitHandler(this.edithm_handleEditHabit);
+    this.editHabitModalView.addEditHabitHandler(this.edithm_handleEditHabit.bind(this));
+
+    // DeleteHabitModalView
+    this.deleteHabitModalView.addHandleDelete(this.deletehm_handleDeleteHabit.bind(this));
   }
 
   // ----------
@@ -111,7 +116,7 @@ class App {
   }
 
   private renderHabitListView() {
-    this.habitListView.render(this.habitList as HabitModel[]);
+    this.habitListView.render(this.habitListModel as HabitModel[]);
     this.habitListView.show();
   }
 
@@ -127,17 +132,21 @@ class App {
   }
 
   private async hlv_handleHabitEdit(habitId: string) {
-    const habit = this.habitList!.find((habit) => habit.id === habitId);
+    const habit = this.habitListModel!.find((habit) => habit.id === habitId);
     if (!habit) return;
     this.editHabitModalView.render(habit);
     this.editHabitModalView.show();
   }
 
-  private async hlv_handleHabitDelete(habitId: string) {}
+  private async hlv_handleHabitDelete(habitId: string) {
+    const habit = this.habitListModel!.find((habit) => habit.id === habitId);
+    this.deleteHabitModalView.render(habit);
+    this.deleteHabitModalView.show();
+  }
 
   private async hlv_handleHabitDayClick(data: { habitId: string; date: string; completed: boolean }) {
     const { habitId, date, completed } = data;
-    const habit = this.habitList!.find((habit) => habit.id === habitId);
+    const habit = this.habitListModel!.find((habit) => habit.id === habitId);
 
     if (!habit) return;
 
@@ -160,32 +169,44 @@ class App {
       return;
     }
 
-    this.habitList?.push(newHabitResult.data as HabitModel);
+    this.habitListModel?.push(newHabitResult.data as HabitModel);
     this.createHabitModalView.hide();
     this.renderHabitListView();
   }
 
   // EditHabitModalView Handlers (edithm)
-  private async edithm_handleEditHabit(data: { habit: HabitModel; updatedTitle: string }) {
-    const updatedHabit = new HabitModel(data.habit);
+  private async edithm_handleEditHabit(data: { habitModel: HabitModel; updatedTitle: string }) {
+    const updatedHabit = new HabitModel(data.habitModel);
     updatedHabit.title = data.updatedTitle;
-    const result = await HabitService.updateHabit(data.habit.id!, updatedHabit);
+    const result = await HabitService.updateHabit(data.habitModel.id!, updatedHabit);
 
     this.editHabitModalView.hide();
 
-    if (result && !result.success) {
-      this.renderAppError(result.data);
+    if (!result.success) {
+      this.renderAppError(result.data!);
       return;
     }
 
-    data.habit.title = updatedHabit.title;
+    data.habitModel.title = updatedHabit.title;
 
     this.renderHabitListView();
     this.showPageView(this.habitListView);
   }
 
   // DeleteHabitModalView Handlers (deletehm)
-  private async deletehm_handleDeleteHabit(habitId: string) {}
+  private async deletehm_handleDeleteHabit(habitId: string) {
+    this.deleteHabitModalView.toggleWorking();
+    const result = await HabitService.deleteHabit(habitId);
+    if (!result.success) {
+      this.renderAppError(`Unable to delete habit.(habitId=${habitId}`);
+      return;
+    }
+    const deletedHabitIndex = this.habitListModel!.findIndex((habit: HabitModel) => habit.id === habitId);
+    this.habitListModel!.splice(deletedHabitIndex);
+    this.deleteHabitModalView.hide();
+    this.renderHabitListView();
+    this.showPageView(this.habitListView);
+  }
 
   // ErrorModalView Handlers (error)
   private error_handleOk() {}

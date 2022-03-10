@@ -24,7 +24,7 @@ export class HabitFormControl {
       this.handleDurationSliderInput();
     }
 
-    return this.generateControlMarkup();
+    return this.generateControlMarkup.bind(this)();
   }
 
   private generateControlMarkup() {

@@ -2,6 +2,7 @@ import { ViewBase } from "./ViewBase.js";
 
 export abstract class ModalViewBase extends ViewBase {
   protected data: any;
+  protected thinking: boolean = false;
 
   constructor(parentSelector: string) {
     super(parentSelector);
@@ -9,11 +10,25 @@ export abstract class ModalViewBase extends ViewBase {
   }
 
   public render(data?: any) {
-    this.data = data;
+    if (data) this.data = data;
     super.render();
   }
 
   public abstract generateMarkup(): string;
+
+  public toggleWorking() {
+    const thinkingElement = this.parentElement.querySelector(".js-thinking");
+
+    if (thinkingElement) {
+      if (this.thinking) {
+        this.thinking = false;
+        thinkingElement.classList.remove("hidden");
+      } else {
+        this.thinking = true;
+        thinkingElement.classList.add("hidden");
+      }
+    }
+  }
 
   // Event Handlers
 

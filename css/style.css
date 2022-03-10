@@ -228,6 +228,14 @@ a:any-link {
   row-gap: 0.8rem;
   padding: 1rem 1.5rem;
   align-items: center;
+  position: relative;
+}
+
+.modal-thinking {
+  z-index: 101;
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
 }
 
 .habit-modal__header {

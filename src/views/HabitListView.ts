@@ -4,7 +4,7 @@ import { Day, HabitModel } from "../models/HabitModel.js";
 export class HabitListView extends ViewBase {
   private title: string;
 
-  private data: HabitModel[] = [];
+  protected data: HabitModel[] = [];
 
   constructor(parentSelector: string, title: string) {
     super(parentSelector);
@@ -139,6 +139,19 @@ export class HabitListView extends ViewBase {
 
       e.stopPropagation();
 
+      handler(habitId);
+    });
+  }
+
+  public addHandlerDeleteHabit(handler: (habitId: string) => void) {
+    this.parentElement.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.classList.contains("js-delete-habit")) return;
+
+      const habitId = (target.closest(".js-habit-list__habit") as HTMLElement).dataset.habitId;
+      if (!habitId) return;
+
+      e.stopPropagation();
       handler(habitId);
     });
   }
