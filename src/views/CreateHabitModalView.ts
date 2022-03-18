@@ -45,12 +45,18 @@ export class CreateHabitModalView extends ModalViewBase {
         return;
       }
 
+      const startDate = this.habitFormControl.getHabitStartDate();
+      if (!startDate) {
+        this.habitFormControl.displayFormError("You must provide a start date.");
+        return;
+      }
+
       e.stopPropagation();
       const duration = this.habitFormControl.getHabitDuration();
 
       this.parentElement.querySelector(".js-confirm-create")!.innerHTML = `Create`;
 
-      handler({ title: title, duration: +duration });
+      handler({ title: title, dateStarted: startDate, duration: +duration });
     });
   }
 }

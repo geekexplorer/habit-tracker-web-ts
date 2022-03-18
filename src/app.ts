@@ -175,9 +175,20 @@ class App {
   }
 
   // EditHabitModalView Handlers (edithm)
-  private async edithm_handleEditHabit(data: { habitModel: HabitModel; updatedTitle: string }) {
-    const updatedHabit = new HabitModel(data.habitModel);
+  private async edithm_handleEditHabit(data: {
+    habitModel: HabitModel;
+    updatedDateStarted: string;
+    updatedTitle: string;
+  }) {
+    let updatedHabit = new HabitModel(data.habitModel);
     updatedHabit.title = data.updatedTitle;
+    updatedHabit.dateStarted = data.updatedDateStarted;
+
+    if (data.updatedDateStarted !== data.habitModel.dateStarted) {
+      updatedHabit.days = [];
+      updatedHabit = new HabitModel(updatedHabit);
+    }
+
     const result = await HabitService.updateHabit(data.habitModel.id!, updatedHabit);
 
     this.editHabitModalView.hide();
@@ -187,7 +198,8 @@ class App {
       return;
     }
 
-    data.habitModel.title = updatedHabit.title;
+    const habitIndex = this.habitListModel!.findIndex((h) => h.id === updatedHabit.id);
+    this.habitListModel![habitIndex] = updatedHabit;
 
     this.renderHabitListView();
     this.showPageView(this.habitListView);
@@ -202,7 +214,7 @@ class App {
       return;
     }
     const deletedHabitIndex = this.habitListModel!.findIndex((habit: HabitModel) => habit.id === habitId);
-    this.habitListModel!.splice(deletedHabitIndex);
+    this.habitListModel!.splice(deletedHabitIndex, deletedHabitIndex + 1);
     this.deleteHabitModalView.hide();
     this.renderHabitListView();
     this.showPageView(this.habitListView);

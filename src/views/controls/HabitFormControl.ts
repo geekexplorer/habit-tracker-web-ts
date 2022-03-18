@@ -40,6 +40,12 @@ export class HabitFormControl {
           this.data?.title ?? ""
         }"/>
       </div>
+      <div class="habit-form__label">
+        Start Date
+      </div>
+      <div class="habit-form__input">
+        <input type="date" class="habit-form__title-input border-1 box-shadow js-habit-startDate"></input>
+      </div>
       ${this.formType === HabitFormType.CREATE_HABIT ? this.generateDurationMarkup() : ""}
       </div>
   `;
@@ -75,6 +81,11 @@ export class HabitFormControl {
 
   public getHabitDuration() {
     return (this.parentElement?.querySelector(".js-habit-duration")! as HTMLInputElement).value;
+  }
+
+  public getHabitStartDate() {
+    const dateString = (this.parentElement?.querySelector(".js-habit-startDate")! as HTMLInputElement).value;
+    return dateString.split("-").join("/");
   }
 
   // Event Handlers

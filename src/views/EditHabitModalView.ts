@@ -39,7 +39,9 @@ export class EditHabitModalView extends ModalViewBase {
 
   // Event Handlers
 
-  addEditHabitHandler(handler: (data: { habitModel: HabitModel; updatedTitle: string }) => void) {
+  addEditHabitHandler(
+    handler: (data: { habitModel: HabitModel; updatedDateStarted: string; updatedTitle: string }) => void
+  ) {
     this.parentElement.addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.classList.contains("js-confirm-edit")) return;
@@ -50,9 +52,15 @@ export class EditHabitModalView extends ModalViewBase {
         return;
       }
 
+      const startDate = this.habitFormControl.getHabitStartDate();
+      if (!startDate) {
+        this.habitFormControl.displayFormError("You must provide a start date.");
+        return;
+      }
+
       e.stopPropagation();
 
-      handler({ habitModel: this.data, updatedTitle: title });
+      handler({ habitModel: this.data, updatedDateStarted: startDate, updatedTitle: title });
     });
   }
 }

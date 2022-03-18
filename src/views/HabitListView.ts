@@ -45,7 +45,9 @@ export class HabitListView extends ViewBase {
     <div class="habit-list__habit js-habit-list__habit border-1 box-shadow " data-habit-id=${habit.id}>
       <div class="habit-details">
         <div class="habit-details__title">${habit.title}</div>
-        <div class="habit-details__start-date">started ${new Date(habit.dateStarted).toLocaleDateString()}</div>
+        <div class="habit-details__start-date">started ${new Date(habit.dateStarted).toLocaleDateString(
+          navigator.language
+        )}</div>
         ${this.generateHabitActionsMarkup(habit.id!)}
       </div>
       ${this.generateHabitDaysMarkup(habit)}
